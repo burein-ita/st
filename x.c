@@ -1622,7 +1622,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 			break;
 		}
 	} else {
-		XftDrawRect(xw.draw, &drawcol,
+/*		XftDrawRect(xw.draw, &drawcol,
 				win.hborderpx + cx * win.cw,
 				win.vborderpx + cy * win.ch,
 				win.cw - 1, 1);
@@ -1638,6 +1638,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 				win.hborderpx + cx * win.cw,
 				win.vborderpx + (cy + 1) * win.ch - 1,
 				win.cw, 1);
+*/
 	}
 }
 
