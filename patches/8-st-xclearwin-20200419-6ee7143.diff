@@ -28,7 +28,7 @@ index 3e48410..2efb4bd 100644
 -				 */
 +				if (j == defaultbg)
 +					xclearwin();
- 				redraw();
+ 				tfulldirt();
  			}
  			return;
 diff --git a/win.h b/win.h
