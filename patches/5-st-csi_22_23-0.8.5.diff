@@ -82,7 +82,7 @@ index f43cfd3..2802381 100644
 +		xfreetitlestack();
  		resettitle();
  		xloadcols();
- 		break;
+ 		xsetmode(0, MODE_HIDE);
 @@ -2631,7 +2659,7 @@ tresize(int col, int row)
  void
  resettitle(void)
@@ -119,8 +119,8 @@ index e6e4369..ef67fd6 100644
 --- a/win.h
 +++ b/win.h
 @@ -31,7 +31,9 @@ void xfinishdraw(void);
- void xloadcols(void);
  int xsetcolorname(int, const char *);
+ int xgetcolor(int, unsigned char *, unsigned char *, unsigned char *);
  void xseticontitle(char *);
 -void xsettitle(char *);
 +void xfreetitlestack(void);
@@ -184,8 +184,8 @@ index 2a3bd38..babb04c 100644
 +		p = opt_title;
 +	}
  
- 	if (Xutf8TextListToTextProperty(xw.dpy, &p, 1, XUTF8StringStyle,
- 	                                &prop) != Success)
+ 	if (p[0] == '\0')
+ 		p = opt_title;
 @@ -1639,6 +1664,16 @@ xsettitle(char *p)
  	XFree(prop.value);
  }
