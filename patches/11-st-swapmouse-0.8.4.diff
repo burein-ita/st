@@ -3,7 +3,7 @@ diff -up st-0.8.4-ori/x.c st-0.8.4/x.c
 +++ st-0.8.4/x.c	2020-07-20 03:39:56.260922736 +0530
 @@ -254,6 +254,9 @@ static char *opt_title = NULL;
  
- static int oldbutton = 3; /* button event on startup: 3 = release */
+ static uint buttons; /* bit field of pressed buttons */
  
 +static Cursor cursor;
 +static XColor xmousefg, xmousebg;
@@ -11,17 +11,15 @@ diff -up st-0.8.4-ori/x.c st-0.8.4/x.c
  void
  clipcopy(const Arg *dummy)
  {
-@@ -1099,10 +1102,8 @@ void
+@@ -1099,8 +1102,6 @@ void
  xinit(int cols, int rows)
  {
  	XGCValues gcvalues;
 -	Cursor cursor;
- 	Window parent;
+ 	Window parent, root;
  	pid_t thispid = getpid();
 -	XColor xmousefg, xmousebg;
  
- 	if (!(xw.dpy = XOpenDisplay(NULL)))
- 		die("can't open display\n");
 @@ -1683,6 +1684,12 @@ xsetmode(int set, unsigned int flags)
  {
  	int mode = win.mode;
