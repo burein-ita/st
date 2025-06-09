@@ -79,7 +79,7 @@ index 2a3bd38..f534347 100644
  	Font *font = &dc.font;
  	int frcflags = FRC_NORMAL;
 @@ -1375,7 +1379,7 @@ void
- xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, int y)
+ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, int y, int dmode)
  {
  	int charlen = len * ((base.mode & ATTR_WIDE) ? 2 : 1);
 -	int winx = borderpx + x * win.cw, winy = borderpx + y * win.ch,
@@ -88,29 +88,29 @@ index 2a3bd38..f534347 100644
  	Color *fg, *bg, *temp, revfg, revbg, truefg, truebg;
  	XRenderColor colfg, colbg;
 @@ -1465,17 +1469,17 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
- 
- 	/* Intelligent cleaning up of the borders. */
- 	if (x == 0) {
--		xclear(0, (y == 0)? 0 : winy, borderpx,
-+		xclear(0, (y == 0)? 0 : winy, win.hborderpx,
- 			winy + win.ch +
--			((winy + win.ch >= borderpx + win.th)? win.h : 0));
-+			((winy + win.ch >= win.vborderpx + win.th)? win.h : 0));
- 	}
--	if (winx + width >= borderpx + win.tw) {
-+	if (winx + width >= win.hborderpx + win.tw) {
- 		xclear(winx + width, (y == 0)? 0 : winy, win.w,
--			((winy + win.ch >= borderpx + win.th)? win.h : (winy + win.ch)));
-+			((winy + win.ch >= win.vborderpx + win.th)? win.h : (winy + win.ch)));
- 	}
- 	if (y == 0)
--		xclear(winx, 0, winx + width, borderpx);
--	if (winy + win.ch >= borderpx + win.th)
-+		xclear(winx, 0, winx + width, win.vborderpx);
-+	if (winy + win.ch >= win.vborderpx + win.th)
- 		xclear(winx, winy + win.ch, winx + width, win.h);
- 
- 	/* Clean up the region we want to draw to. */
+     if (dmode & DRAW_BG) {
+         /* Intelligent cleaning up of the borders. */
+         if (x == 0) {
+-            xclear(0, (y == 0)? 0 : winy, borderpx,
++            xclear(0, (y == 0)? 0 : winy, win.hborderpx,
+                    winy + win.ch +
+-                   ((winy + win.ch >= borderpx + win.th)? win.h : 0));
++                   ((winy + win.ch >= win.vborderpx + win.th)? win.h : 0));
+         }
+-        if (winx + width >= borderpx + win.tw) {
++        if (winx + width >= win.hborderpx + win.tw) {
+             xclear(winx + width, (y == 0)? 0 : winy, win.w,
+-                   ((winy + win.ch >= borderpx + win.th)? win.h : (winy + win.ch)));
++                   ((winy + win.ch >= win.vborderpx + win.th)? win.h : (winy + win.ch)));
+         }
+         if (y == 0)
+-            xclear(winx, 0, winx + width, borderpx);
+-        if (winy + win.ch >= borderpx + win.th)
++            xclear(winx, 0, winx + width, win.vborderpx);
++        if (winy + win.ch >= win.vborderpx + win.th)
+             xclear(winx, winy + win.ch, winx + width, win.h);
+         /* Fill the background */
+         XftDrawRect(xw.draw, bg, winx, winy, width, win.ch);
 @@ -1569,35 +1573,35 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
  		case 3: /* Blinking Underline */
  		case 4: /* Steady Underline */
