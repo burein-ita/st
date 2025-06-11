@@ -5,16 +5,16 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "monospace:size=11:style=bold";
+static char *font = "Terminus:size=11:style=bold";
 /* Spare fonts */
 static char *font2[] = {
-/*	"Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true", */
-/*	"Hack Nerd Font Mono:pixelsize=11:antialias=true:autohint=true", */
+	"Cozette:style=Medium",
+	"Siji:style=Regular",
 };
 
 
 /* disable bold, italic and roman fonts globally */
-int disablebold = 0;
+int disablebold = 1;
 int disableitalic = 1;
 int disableroman = 1;
 
@@ -72,7 +72,7 @@ static double maxlatency = 33;
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 800;
+static unsigned int blinktimeout = 400;
 
 /*
  * thickness of underline and bar cursors
@@ -131,18 +131,18 @@ static const char *colorname[] = {
 
 	/* 8 bright colors */
 	[8]  = "#404040",
-	[9]  = "#a08080",
-	[10] = "#80a080",
-	[11] = "#a0a080",
-	[12] = "#8080a0",
-	[13] = "#a080a0",
-	[14] = "#80a0a0",
-	[15] = "#c0c0c0",
+	[9]  = "#806060",
+	[10] = "#608060",
+	[11] = "#808060",
+	[12] = "#606080",
+	[13] = "#806080",
+	[14] = "#608080",
+	[15] = "#808080",
 
 	/* more colors can be added after 255 to use with DefaultXX */
     /* special colors */
     [256] = "#000000", /* background */
-    [257] = "#c0c0c0", /* foreground */
+    [257] = "#808080", /* foreground */
 };
 
 
@@ -231,7 +231,9 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
-    { ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ ShiftMask,            XK_KP_Prior,    kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_KP_Next,     kscrolldown,    {.i = -1} },
 };
 
 /*
